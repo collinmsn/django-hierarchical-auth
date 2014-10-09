@@ -20,7 +20,7 @@ admin.site.unregister(Group)
 admin.site.register(Group, GroupMPTTModelAdmin)
 
 class UserWithMPTTChangeForm(UserChangeForm):
-    groups = TreeNodeMultipleChoiceField(queryset=Group.tree.all())
+    groups = TreeNodeMultipleChoiceField(queryset=Group.objects.all())
 
 class UserWithMPTTAdmin(UserAdmin):
     form = UserWithMPTTChangeForm

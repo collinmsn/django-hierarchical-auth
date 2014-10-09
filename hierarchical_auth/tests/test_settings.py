@@ -10,7 +10,15 @@ INSTALLED_APPS = (
     'hierarchical_auth.tests',
 )
 
-DATABASE_ENGINE = 'sqlite3'
+DATABASES = {
+    'default': {
+    'ENGINE': 'django.db.backends.sqlite3',
+    'NAME': 'mydatabase',
+    }
+}
+
+SECRET = 'secret'
+SECRET_KEY = 'secret'
 
 AUTHENTICATION_BACKENDS = (
     'hierarchical_auth.backends.HierarchicalModelBackend',

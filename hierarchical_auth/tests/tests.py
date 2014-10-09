@@ -17,28 +17,28 @@ class UserTestCase(TestCase):
         Test if get_all_groups() returns the user's group and all parent groups.
         """
 
-        # user_1 should be member of 3 groups.
+        # user_1 should be member of 2 groups.
         user_1 = User.objects.get(username='user_1')
         group_names = map(lambda g: g.name, user_1.get_all_groups())
 
-        self.assertEquals(3, len(group_names))
-        self.assertFalse('group_1' in group_names)
+        self.assertEquals(2, len(group_names))
+        self.assertTrue('group_1' in group_names)
         self.assertTrue('group_2' in group_names)
-        self.assertTrue('group_3' in group_names)
-        self.assertTrue('group_4' in group_names)
+        self.assertFalse('group_3' in group_names)
+        self.assertFalse('group_4' in group_names)
 
         # test get_all_groups with only_ids=True
-        self.assertEqual(set([2, 3, 4]), user_1.get_all_groups(only_ids=True))
+        self.assertEqual(set([1, 2]), user_1.get_all_groups(only_ids=True))
 
 
-        # user_2 should be member of 1 group.
+        # user_2 should be member of 4 group.
         user_2 = User.objects.get(username='user_2')
         group_names = map(lambda g: g.name, user_2.get_all_groups())
 
-        self.assertEquals(1, len(group_names))
-        self.assertFalse('group_1' in group_names)
-        self.assertFalse('group_2' in group_names)
-        self.assertFalse('group_3' in group_names)
+        self.assertEquals(4, len(group_names))
+        self.assertTrue('group_1' in group_names)
+        self.assertTrue('group_2' in group_names)
+        self.assertTrue('group_3' in group_names)
         self.assertTrue('group_4' in group_names)
 
 
@@ -49,15 +49,15 @@ class UserTestCase(TestCase):
         """
 
         user_1 = User.objects.get(username='user_1')
-        self.assertFalse(user_1.has_perm('app_1.perm_1'))
+        self.assertTrue(user_1.has_perm('app_1.perm_1'))
         self.assertTrue(user_1.has_perm('app_1.perm_2'))
-        self.assertTrue(user_1.has_perm('app_1.perm_3'))
-        self.assertTrue(user_1.has_perm('app_1.perm_4'))
+        self.assertFalse(user_1.has_perm('app_1.perm_3'))
+        self.assertFalse(user_1.has_perm('app_1.perm_4'))
 
         user_2 = User.objects.get(username = 'user_2')
-        self.assertFalse(user_2.has_perm('app_1.perm_1'))
-        self.assertFalse(user_2.has_perm('app_1.perm_2'))
-        self.assertFalse(user_2.has_perm('app_1.perm_3'))
+        self.assertTrue(user_2.has_perm('app_1.perm_1'))
+        self.assertTrue(user_2.has_perm('app_1.perm_2'))
+        self.assertTrue(user_2.has_perm('app_1.perm_3'))
         self.assertTrue(user_2.has_perm('app_1.perm_4'))
 
 
